@@ -1,0 +1,19 @@
+{
+  "name": "music-be-real-node",
+  "version": "1.0.0",
+  "description": "Node.js HTTP Web server for MusicBeReal application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anikarabenhorst/music-be-real-node.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anikarabenhorst/music-be-real-node/issues"
+  },
+  "homepage": "https://github.com/anikarabenhorst/music-be-real-node#readme"
+}
