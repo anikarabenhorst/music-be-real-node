@@ -1,4 +1,4 @@
-import users from "./sample_data/users.js";
+import userDao from "../dao/user-dao.js";
 
 const userController = (app) => {
   app.post('/api/users', createUser);
@@ -11,33 +11,33 @@ const userController = (app) => {
 
 const createUser = async (req, res) => {
   let newUser = req.body;
-  users.push(newUser);
-  res.sendStatus(200);
+  const insertedUser = await userDao.createUser(newUser);
+  res.json(insertedUser);
 };
 
 const findAllUsers = async (req, res) => {
-  res.send(users);
+  const users = await userDao.findAllUsers();
+  res.json(users);
 }
 
 const findUserByID = async (req, res) => {
   const userID = req.params.uid;
-  const foundUser = users.find(element => element._id == userID);
+  const allUsers = await userDao.findAllUsers();
+  const foundUser = allUsers.find(element => element._id == userID);
   res.send(foundUser);
 }
 
 const updateUser = async (req, res) => {
   const idTOUpdate = req.params.uid;
   const updatedUser = req.body;
-  const indexToUpdate = users.findIndex((element) => {element._id == idTOUpdate});
-  users[indexToUpdate] = updatedUser;
-  res.send(`User ${idTOUpdate} has been updated`);
+  const status = await userDao.updateUser(idTOUpdate, updatedUser);
+  res.send(status);
 }
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
   const userIDToDelete = req.params.uid;
-  const indexToDelete = users.findIndex((element) => element._id == userIDToDelete);
-  users.splice(indexToDelete, 1);
-  res.send(`User ${userIDToDelete} has been deleted`);
+  const status = await userDao.deleteUser(userIDToDelete);
+  res.send(status);
 };
 
 export default userController;
