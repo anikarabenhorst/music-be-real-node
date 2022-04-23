@@ -51,22 +51,15 @@ const deleteUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  console.count("Log In User");
-  console.log(req);
   const users = await userDao.findAllUsers();
   const {username, password} = req.body;
   const foundUser = users.filter(u => {
     return u.password === password && u.username === username;
   });
-
-  console.count("HI");
-  console.log(foundUser)
   if (foundUser.length > 0) {
-    console.log("WHY"); 
-    res.send(foundUser);
+    res.send(foundUser[0]);
   } else {
-    console.log("FUCK "); 
-    res.send("404");
+    res.sendStatus(500);
   }
 }
 
