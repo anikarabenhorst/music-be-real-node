@@ -1,16 +1,17 @@
 import mongoose from 'mongoose';
 
-const schema = mongoose.Schema({
+const userSchema = mongoose.Schema({
   username: String,
-  userType: String,
+  password: String,
+  userType: {type: String, default: "regular"},
   firstName: String,
   lastName: String,
-  verified: Boolean,
-  avatarImage: String,
+  verified: {type: Boolean, default: false },
+  avatarImage: {type: String, default: ""},
   stats: {
     followers: Array,
     following: Array,
   }
 }, {collection: 'users'});
 
-export default schema;
+export default userSchema;

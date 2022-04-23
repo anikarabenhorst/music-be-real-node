@@ -1,4 +1,4 @@
-import users from "./sample_data/users.js";
+import userDao from "../dao/user-dao.js";
 
 const userController = (app) => {
   app.post('/api/users', createUser);
@@ -6,38 +6,68 @@ const userController = (app) => {
   app.get('/api/users/:uid', findUserByID);
   app.put('/api/users/:uid', updateUser);
   app.delete('/api/users/:uid', deleteUser);
+  app.post('/api/userslogin', loginUser);
 }
 
-
 const createUser = async (req, res) => {
+  console.count("User Created");
   let newUser = req.body;
-  users.push(newUser);
-  res.sendStatus(200);
+  const insertedUser = await userDao.createUser(newUser);
+  res.json(insertedUser);
 };
 
 const findAllUsers = async (req, res) => {
-  res.send(users);
+  console.count("User Found");
+  const users = await userDao.findAllUsers();
+  res.json(users);
 }
 
 const findUserByID = async (req, res) => {
   const userID = req.params.uid;
-  const foundUser = users.find(element => element._id == userID);
-  res.send(foundUser);
+  const allUsers = await userDao.findAllUsers();
+  console.log("Hi")
+  const foundUser = allUsers.find(element => element._id == userID);
+  if (foundUser) {
+    res.send(foundUser);
+  } else {
+    res.sendStatus(404);
+  }
+  
 }
 
 const updateUser = async (req, res) => {
+  console.count("Update User");
   const idTOUpdate = req.params.uid;
   const updatedUser = req.body;
-  const indexToUpdate = users.findIndex((element) => {element._id == idTOUpdate});
-  users[indexToUpdate] = updatedUser;
-  res.send(`User ${idTOUpdate} has been updated`);
+  const status = await userDao.updateUser(idTOUpdate, updatedUser);
+  res.send(status);
 }
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
+  console.count("Deleted User");
   const userIDToDelete = req.params.uid;
-  const indexToDelete = users.findIndex((element) => element._id == userIDToDelete);
-  users.splice(indexToDelete, 1);
-  res.send(`User ${userIDToDelete} has been deleted`);
+  const status = await userDao.deleteUser(userIDToDelete);
+  res.send(status);
 };
+
+const loginUser = async (req, res) => {
+  console.count("Log In User");
+  console.log(req);
+  const users = await userDao.findAllUsers();
+  const {username, password} = req.body;
+  const foundUser = users.filter(u => {
+    return u.password === password && u.username === username;
+  });
+
+  console.count("HI");
+  console.log(foundUser)
+  if (foundUser.length > 0) {
+    console.log("WHY"); 
+    res.send(foundUser);
+  } else {
+    console.log("FUCK "); 
+    res.send("404");
+  }
+}
 
 export default userController;
