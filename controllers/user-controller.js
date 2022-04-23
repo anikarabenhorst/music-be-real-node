@@ -6,7 +6,7 @@ const userController = (app) => {
   app.get('/api/users/:uid', findUserByID);
   app.put('/api/users/:uid', updateUser);
   app.delete('/api/users/:uid', deleteUser);
-  app.get('/api/userslogin', loginUser);
+  app.post('/api/userslogin', loginUser);
 }
 
 const createUser = async (req, res) => {
@@ -52,6 +52,7 @@ const deleteUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   console.count("Log In User");
+  console.log(req);
   const users = await userDao.findAllUsers();
   const {username, password} = req.body;
   const foundUser = users.filter(u => {
@@ -61,10 +62,11 @@ const loginUser = async (req, res) => {
   console.count("HI");
   console.log(foundUser)
   if (foundUser.length > 0) {
-
+    console.log("WHY"); 
     res.send(foundUser);
   } else {
-    res.sendStatus(404);
+    console.log("FUCK "); 
+    res.send("404");
   }
 }
 
