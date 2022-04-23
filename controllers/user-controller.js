@@ -60,7 +60,7 @@ const loginUser = async (req, res) => {
 
   console.count("HI");
   console.log(foundUser)
-  if (foundUser.length > 1) {
+  if (foundUser.length > 0) {
 
     res.send(foundUser);
   } else {
