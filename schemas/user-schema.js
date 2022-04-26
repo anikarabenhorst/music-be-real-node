@@ -1,16 +1,16 @@
 import mongoose from 'mongoose';
 
 const userSchema = mongoose.Schema({
-  username: String,
-  password: String,
+  username: {type: String, required: true},
+  password:  {type: String, required: true},
   userType: {type: String, default: "regular"},
-  firstName: String,
-  lastName: String,
+  firstName: {type: String, default: ""},
+  lastName: {type: String, default: ""},
   verified: {type: Boolean, default: false },
   avatarImage: {type: String, default: ""},
   stats: {
-    followers: Array,
-    following: Array,
+    followers: {type: Array, default: []},
+    following: {type: Array, default: []},
   }
 }, {collection: 'users'});
 

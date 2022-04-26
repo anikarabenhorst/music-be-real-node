@@ -7,6 +7,7 @@ const userController = (app) => {
   app.put('/api/users/:uid', updateUser);
   app.delete('/api/users/:uid', deleteUser);
   app.post('/api/userslogin', loginUser);
+  app.post('/api/users/:uid/follow/:fid', followUser);
 }
 
 const createUser = async (req, res) => {
@@ -25,7 +26,7 @@ const findAllUsers = async (req, res) => {
 const findUserByID = async (req, res) => {
   const userID = req.params.uid;
   const allUsers = await userDao.findAllUsers();
-  console.log("Hi")
+  console.log(userID)
   const foundUser = allUsers.find(element => element._id == userID);
   if (foundUser) {
     res.send(foundUser);
@@ -61,6 +62,27 @@ const loginUser = async (req, res) => {
   } else {
     res.sendStatus(500);
   }
-}
+};
+
+const followUser = async (req, res) => {
+  // add fid to uid's following list
+  const userID = req.params.uid;
+  const followID = req.params.fid;
+  const allUsers = await userDao.findAllUsers();
+  const user = allUsers.find(u =>  u._id.toString() === userID);
+  user.stats.following.push(followID);
+  userDao.updateUser(userID, user);
+
+  // add uid to fid's followers list
+  
+  const followUser = allUsers.find(u => u._id.toString() === followID);
+  console.log("IN CONTR");
+  console.log(followUser);
+  followUser.stats.followers.push(userID);
+  userDao.updateUser(followID, followUser);
+
+
+  res.sendStatus(200);
+};
 
 export default userController;
