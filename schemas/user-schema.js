@@ -8,10 +8,8 @@ const userSchema = mongoose.Schema({
   lastName: {type: String, default: ""},
   verified: {type: Boolean, default: false },
   avatarImage: {type: String, default: ""},
-  stats: {
-    followers: {type: Array, default: []},
-    following: {type: Array, default: []},
-  }
+  followers: {type: Array, default: []},
+  following: {type: Array, default: []},
 }, {collection: 'users'});
 
 export default userSchema;

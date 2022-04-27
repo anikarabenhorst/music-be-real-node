@@ -1,8 +1,8 @@
 import postModel from "../models/posts-model.js";
 
 const findAllPosts = () => postModel.find();
-const createPost = (user) => postModel.create(user);
-const deletePost = (uid) => postModel.deleteOne({_id: uid});
-const updatePost = (uid, user) => postModel.updateUser({_id: uid}, {$set: user});
+const createPost = (post) => postModel.create(post);
+const deletePost = (pid) => postModel.deleteOne({_id: pid});
+const updatePost = (pid, post) => postModel.updateOne({_id: pid}, {$set: post});
 
 export default {findAllPosts, createPost, deletePost, updatePost};

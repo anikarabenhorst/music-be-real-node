@@ -23,7 +23,7 @@ const findAllPosts = async (req, res) => {
 
 const findPostByID = async (req, res) => {
   const posts = await postsDao.findAllPosts();
-  const foundPost = posts.find(element => element._id == postID);
+  const foundPost = posts.find(element => element._id == req.params.pid);
   res.json(foundPost);
 }
 
