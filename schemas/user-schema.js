@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const userSchema = mongoose.Schema({
   username: {type: String, required: true},
   password:  {type: String, required: true},
-  userType: {type: String, default: "regular"},
+  userType: {type: String, default: "regular", enum: ["admin", "regular"]},
   firstName: {type: String, default: ""},
   lastName: {type: String, default: ""},
   verified: {type: Boolean, default: false },
