@@ -6,6 +6,7 @@ const userSchema = mongoose.Schema({
   userType: {type: String, default: "regular", enum: ["admin", "regular"]},
   firstName: {type: String, default: ""},
   lastName: {type: String, default: ""},
+  email: {type: String, required: true},
   verified: {type: Boolean, default: false },
   avatarImage: {type: String, default: ""},
   followers: {type: Array, default: []},
