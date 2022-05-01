@@ -31,7 +31,12 @@ const updatePost = async (req, res) => {
   const postIDToUpdate = req.params.pid;
   const updatedPost = req.body;
   const status = await postsDao.updatePost(postIDToUpdate, updatedPost);
-  res.send(status);
+
+  const posts = await postsDao.findAllPosts();
+  const foundPost = posts.find(element => element._id == req.params.pid);
+
+
+  res.send(foundPost);
 }
 
 
