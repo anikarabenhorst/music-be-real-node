@@ -40,7 +40,11 @@ const updateUser = async (req, res) => {
   const idTOUpdate = req.params.uid;
   const updatedUser = req.body;
   const status = await userDao.updateUser(idTOUpdate, updatedUser);
-  res.send(status);
+
+  const allUsers = await userDao.findAllUsers();
+  const foundUser = allUsers.find(element => element._id == idTOUpdate);
+  
+  res.send(foundUser);
 }
 
 const deleteUser = async (req, res) => {
